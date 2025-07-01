@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Summer Bucket List Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pool Party Bucket List</title>
   <style>
     :root {
-      --primary: #6c63ff;
-      --gradient: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      --primary: #00c2ff;
+      --secondary: #a1f3ff;
     }
 
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--gradient);
+      font-family: 'Comic Sans MS', 'Segoe UI', cursive, sans-serif;
+      background: radial-gradient(circle at center, #a1f3ff, #00c2ff);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -24,27 +24,31 @@
     .container {
       background: white;
       padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+      border-radius: 25px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
       text-align: center;
-      max-width: 420px;
+      max-width: 480px;
       width: 90%;
-      animation: fadeIn 1s ease-out;
+      animation: floatIn 0.8s ease;
+      overflow-y: auto;
     }
 
     h1 {
-      font-size: 2rem;
-      color: #333;
+      font-size: 2.2rem;
+      color: #007da7;
       margin-bottom: 1rem;
     }
 
     #idea {
-      font-size: 1.3rem;
-      color: #555;
+      font-size: 1.4rem;
+      color: #006a87;
       margin: 1.5rem 0;
       min-height: 80px;
-      transition: opacity 0.4s ease;
-      opacity: 1;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .splash {
+      animation: splash 0.5s ease-out;
     }
 
     button {
@@ -60,85 +64,136 @@
     }
 
     button:hover {
-      background-color: #5848d8;
-      transform: scale(1.05);
+      background-color: #009cd0;
+      transform: scale(1.07);
     }
 
     .footer {
       margin-top: 1rem;
-      font-size: 0.85rem;
-      color: #777;
+      font-size: 0.9rem;
+      color: #444;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+    #favorites {
+      margin-top: 1.5rem;
+      text-align: left;
+      background: #f0faff;
+      padding: 1rem;
+      border-radius: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    #favorites h3 {
+      margin-top: 0;
+      color: #007da7;
+    }
+
+    #favorites ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+
+    #favorites li {
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    @keyframes splash {
+      0% { opacity: 0; transform: scale(0.8) rotate(-3deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0); }
+    }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes flash {
-      0% { opacity: 0; transform: scale(0.95); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-
-    .animate {
-      animation: flash 0.5s ease-out;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>☀️ Summer Bucket List</h1>
-    <div id="idea">Click below to get a fun summer idea!</div>
-    <button onclick="generateIdea()">Get Idea</button>
-    <button onclick="resetIdeas()">Reset</button>
-    <div class="footer">Fun, free, and family-friendly 🌻</div>
+    <h1>🏊 Pool Party Bucket List</h1>
+    <div id="idea">Click below to get a fun pool idea!</div>
+    <button onclick="generateIdea()">💧 Splash Me</button>
+    <button onclick="saveFavorite()">⭐ Save to Favorites</button>
+    <button onclick="resetIdeas()">🔄 Reset</button>
+    <div id="favorites">
+      <h3>⭐ Favorites</h3>
+      <ul id="favList"></ul>
+    </div>
+    <div class="footer">Make this summer epic! 😎</div>
   </div>
 
   <script>
-    const allIdeas = [
-      "Have a picnic in your backyard or a nearby park 🍉",
-      "Make homemade popsicles 🧊",
-      "Go stargazing one night 🌟",
-      "Build a fort using blankets and pillows 🏰",
-      "Have a movie night outside 🎬",
-      "Create sidewalk chalk art 🎨",
-      "Go on a neighborhood scavenger hunt 🔍",
-      "Visit a local library or book fair 📚",
-      "Plant a flower or veggie garden 🌼",
-      "Make a scrapbook of your summer memories 📸",
-      "Have a water balloon fight 💦",
-      "Make lemonade from scratch 🍋",
-      "Watch the sunrise or sunset together 🌅",
-      "Try a new board game as a family 🎲",
-      "Visit a farmer’s market and pick out fruit 🍓"
+    const poolIdeas = [
+      "Have a cannonball contest 💦",
+      "Host a poolside karaoke party 🎤",
+      "Play ‘Sharks and Minnows’ 🦈",
+      "Have a floatie race with friends 🛟",
+      "Make poolside popsicles together 🍓",
+      "Create a DIY slip-n-slide 🌈",
+      "Do a pool dance party with music 🎶",
+      "Try synchronized swimming (and fail!) 🤿",
+      "Play water balloon dodgeball 💣",
+      "Make a beach ball volleyball court 🏐",
+      "Set up a pool treasure hunt 🪙",
+      "Eat lunch on a float 🍔",
+      "Have a night swim with glow sticks 🌌",
+      "Draw funny faces on floaties 🎨",
+      "Build a towel fort near the pool 🏰"
     ];
 
-    let remainingIdeas = [...allIdeas];
+    let remainingIdeas = [...poolIdeas];
+    let currentIdea = "";
 
     function generateIdea() {
       const display = document.getElementById("idea");
 
       if (remainingIdeas.length === 0) {
-        display.textContent = "🎉 You've completed the list! Click Reset to start over.";
+        display.textContent = "🎉 You’ve done it all! Hit Reset to start again!";
+        currentIdea = "";
         return;
       }
 
       const index = Math.floor(Math.random() * remainingIdeas.length);
-      const idea = remainingIdeas.splice(index, 1)[0];
+      currentIdea = remainingIdeas.splice(index, 1)[0];
 
-      display.classList.remove('animate'); // restart animation
-      void display.offsetWidth; // force reflow
-      display.classList.add('animate');
-      display.textContent = idea;
+      display.classList.remove('splash');
+      void display.offsetWidth;
+      display.textContent = currentIdea;
+      display.classList.add('splash');
     }
 
     function resetIdeas() {
-      remainingIdeas = [...allIdeas];
-      const display = document.getElementById("idea");
-      display.textContent = "List reset! Click below to get a new idea!";
-      display.classList.remove('animate');
+      remainingIdeas = [...poolIdeas];
+      currentIdea = "";
+      document.getElementById("idea").textContent = "Ready for more pool fun? Click Splash Me!";
     }
+
+    function saveFavorite() {
+      if (!currentIdea) return;
+
+      let favs = JSON.parse(localStorage.getItem("favorites")) || [];
+      if (!favs.includes(currentIdea)) {
+        favs.push(currentIdea);
+        localStorage.setItem("favorites", JSON.stringify(favs));
+        renderFavorites();
+      }
+    }
+
+    function renderFavorites() {
+      const favList = document.getElementById("favList");
+      favList.innerHTML = "";
+      let favs = JSON.parse(localStorage.getItem("favorites")) || [];
+      favs.forEach(fav => {
+        const li = document.createElement("li");
+        li.textContent = fav;
+        favList.appendChild(li);
+      });
+    }
+
+    renderFavorites(); // Load saved favorites on page load
   </script>
 
 </body>
