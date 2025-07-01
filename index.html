@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Summer Bucket List Generator</title>
+  <style>
+    :root {
+      --primary: #6c63ff;
+      --gradient: linear-gradient(to right, #fbc2eb, #a6c1ee);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 420px;
+      width: 90%;
+      animation: fadeIn 1s ease-out;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    #idea {
+      font-size: 1.3rem;
+      color: #555;
+      margin: 1.5rem 0;
+      min-height: 80px;
+      transition: opacity 0.4s ease;
+      opacity: 1;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      margin: 0.5rem 0.3rem;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #5848d8;
+      transform: scale(1.05);
+    }
+
+    .footer {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes flash {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .animate {
+      animation: flash 0.5s ease-out;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>☀️ Summer Bucket List</h1>
+    <div id="idea">Click below to get a fun summer idea!</div>
+    <button onclick="generateIdea()">Get Idea</button>
+    <button onclick="resetIdeas()">Reset</button>
+    <div class="footer">Fun, free, and family-friendly 🌻</div>
+  </div>
+
+  <script>
+    const allIdeas = [
+      "Have a picnic in your backyard or a nearby park 🍉",
+      "Make homemade popsicles 🧊",
+      "Go stargazing one night 🌟",
+      "Build a fort using blankets and pillows 🏰",
+      "Have a movie night outside 🎬",
+      "Create sidewalk chalk art 🎨",
+      "Go on a neighborhood scavenger hunt 🔍",
+      "Visit a local library or book fair 📚",
+      "Plant a flower or veggie garden 🌼",
+      "Make a scrapbook of your summer memories 📸",
+      "Have a water balloon fight 💦",
+      "Make lemonade from scratch 🍋",
+      "Watch the sunrise or sunset together 🌅",
+      "Try a new board game as a family 🎲",
+      "Visit a farmer’s market and pick out fruit 🍓"
+    ];
+
+    let remainingIdeas = [...allIdeas];
+
+    function generateIdea() {
+      const display = document.getElementById("idea");
+
+      if (remainingIdeas.length === 0) {
+        display.textContent = "🎉 You've completed the list! Click Reset to start over.";
+        return;
+      }
+
+      const index = Math.floor(Math.random() * remainingIdeas.length);
+      const idea = remainingIdeas.splice(index, 1)[0];
+
+      display.classList.remove('animate'); // restart animation
+      void display.offsetWidth; // force reflow
+      display.classList.add('animate');
+      display.textContent = idea;
+    }
+
+    function resetIdeas() {
+      remainingIdeas = [...allIdeas];
+      const display = document.getElementById("idea");
+      display.textContent = "List reset! Click below to get a new idea!";
+      display.classList.remove('animate');
+    }
+  </script>
+
+</body>
+</html>
